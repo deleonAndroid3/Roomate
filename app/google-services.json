@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "221000502873",
+    "firebase_url": "https://roomate-aef3e.firebaseio.com",
+    "project_id": "roomate-aef3e",
+    "storage_bucket": "roomate-aef3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221000502873:android:eac57a3048f0857f",
+        "android_client_info": {
+          "package_name": "com.training.android.roomate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221000502873-eoha23ovq9oclbq45k0d5q2qvi34aoca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6BLjhTtkKmJjL4xlXBq0qnd9btBJ8B-0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
