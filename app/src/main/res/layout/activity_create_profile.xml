@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.training.android.roomate.CreateProfile">
 
+
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etFname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="First Name"
         android:inputType="textPersonName"
@@ -20,20 +21,20 @@
         android:layout_marginStart="8dp" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/etLname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="19dp"
         android:ems="10"
         android:hint="Last Name"
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/etFname"
         android:layout_marginStart="8dp" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/etContactNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -42,11 +43,11 @@
         android:hint="Contact Number"
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/etLname"
         android:layout_marginStart="8dp" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/etAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -55,20 +56,22 @@
         android:hint="Age"
         android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3"
+        app:layout_constraintTop_toBottomOf="@+id/etContactNum"
         android:layout_marginStart="8dp" />
 
     <RadioGroup
+        android:id="@+id/rgClassification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgGender">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/rbTenant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -78,13 +81,13 @@
             tools:layout_editor_absoluteY="279dp" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/rbSeeker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:text="I am a Seeker"
-            app:layout_constraintLeft_toRightOf="@+id/radioButton"
+            app:layout_constraintLeft_toRightOf="@+id/rbTenant"
             tools:layout_editor_absoluteY="279dp" />
     </RadioGroup>
 
@@ -95,18 +98,19 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/editText4"
-        android:id="@+id/radioGroup">
+        app:layout_constraintTop_toBottomOf="@+id/etAge"
+        android:id="@+id/rgGender"
+        android:layout_marginStart="8dp">
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/rbMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Male" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/rbFemale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -114,12 +118,14 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCreateProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:text="Create Profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -130,7 +136,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Image Here"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="295dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/rgClassification"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
