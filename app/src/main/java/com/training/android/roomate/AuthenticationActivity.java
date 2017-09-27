@@ -22,6 +22,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,6 +43,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private static final int STATE_SIGNIN_SUCCESS = 6;
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabase;
 
     private boolean mVerificationInProgress = false;
     private String mVerificationId;
@@ -76,13 +83,9 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         mVerifyButton.setOnClickListener(this);
         mResendButton.setOnClickListener(this);
 
-
-        // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
+        mFirebaseInstance = FirebaseDatabase.getInstance();
 
-        // Initialize phone auth callbacks
-        // [START phone_auth_callbacks]
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             @Override
@@ -156,10 +159,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 // [END_EXCLUDE]
             }
         };
-        // [END phone_auth_callbacks]
     }
 
-    // [START on_start_check_user]
     @Override
     public void onStart() {
         super.onStart();
@@ -173,7 +174,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         }
         // [END_EXCLUDE]
     }
-    // [END on_start_check_user]
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -207,7 +207,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         signInWithPhoneAuthCredential(credential);
     }
 
-    // [START resend_verification]
     private void resendVerificationCode(String phoneNumber,
                                         PhoneAuthProvider.ForceResendingToken token) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -218,9 +217,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 mCallbacks,         // OnVerificationStateChangedCallbacks
                 token);             // ForceResendingToken from callbacks
     }
-    // [END resend_verification]
 
-    // [START sign_in_with_phone]
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -251,7 +248,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                     }
                 });
     }
-    // [END sign_in_with_phone]
 
     private void updateUI(int uiState) {
         updateUI(uiState, mAuth.getCurrentUser(), null);
@@ -320,18 +316,9 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 break;
             case STATE_SIGNIN_SUCCESS:
                 // Np-op, handled by sign-in check
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        Intent createProfileIntent = new Intent(AuthenticationActivity.this, CreateProfile.class);
-                        createProfileIntent.putExtra("UID", user.getUid());
-                        startActivity(createProfileIntent);
-                        finish();
-                    }
-                }, 3000);
+                checkProfile(user.getUid());
                 break;
+
         }
 
         if (user != null) {
@@ -388,5 +375,50 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 resendVerificationCode(mPhoneNumberField.getText().toString(), mResendToken);
                 break;
         }
+    }
+
+    private void checkProfile(final String userUID) {
+        final Handler handler = new Handler();
+        mFirebaseDatabase = mFirebaseInstance
+                .getReference("users")
+                .child("user_types")
+                .child("Tenants");
+
+        mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childsnapshot : dataSnapshot.getChildren()) {
+                    if (userUID.equals(childsnapshot.getKey())) {
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent goToProfile = new Intent(AuthenticationActivity.this, ProfileScreen.class);
+                                startActivity(goToProfile);
+                                finish();
+                            }
+                        }, 3000);
+                    } else {
+
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent createProfileIntent = new Intent(AuthenticationActivity.this, CreateProfile.class);
+                                createProfileIntent.putExtra("UID", userUID);
+                                startActivity(createProfileIntent);
+                                Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }, 3000);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("TAG", databaseError.getMessage());
+            }
+        });
+
     }
 }
