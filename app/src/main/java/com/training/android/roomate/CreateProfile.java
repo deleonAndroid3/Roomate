@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -29,19 +30,21 @@ public class CreateProfile extends AppCompatActivity {
     private Button mButton;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mRef = database.getReference("users").child("user_types").child("Seekers");
-
+    private RadioGroup mRgGender, mRgType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
 
         mAuth = FirebaseAuth.getInstance();
-
+        mRgGender = findViewById(R.id.rgGender);
+        mRgType = findViewById(R.id.rgType);
         mButton = findViewById(R.id.btnCreateProfile);
         mEtFname = findViewById(R.id.etFname);
         mEtLname = findViewById(R.id.etLname);
         mEtContactNum = findViewById(R.id.etContactNum);
         mEtAge = findViewById(R.id.etAge);
+        int radioButtonID = mRgGender.getCheckedRadioButtonId();
 
 //       initToolbar();
         mButton.setOnClickListener(new View.OnClickListener() {
