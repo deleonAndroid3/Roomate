@@ -68,8 +68,11 @@
         android:id="@+id/btnConfirm"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/primary_rounded_button"
         android:text="Confirm"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="148dp" />
+        android:layout_marginRight="190dp"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>
