@@ -11,8 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_paddingLeft="10dp"
-        android:layout_paddingRight="10dp"
         android:paddingTop="10dp"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
