@@ -3,10 +3,14 @@ package com.training.android.roomate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -14,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.training.android.roomate.Model.TenantModel;
+
 
 public class CreateProfile extends AppCompatActivity {
 
@@ -29,20 +34,23 @@ public class CreateProfile extends AppCompatActivity {
     private RadioGroup mrgType;
     private Button mbtnCreate;
 
-    private String gender = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
 
-        metFname = findViewById(R.id.etFName);
-        metLname = findViewById(R.id.etLName);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Create Profile");
+        }
+
+        metFname = findViewById(R.id.etFname);
+        metLname = findViewById(R.id.etLname);
         metAge = findViewById(R.id.etAge);
         metContactnum = findViewById(R.id.etContactNum);
         mrgGender = findViewById(R.id.rgGender);
         mrgType = findViewById(R.id.rgUserType);
-        mbtnCreate = findViewById(R.id.btnCreate);
+        mbtnCreate = findViewById(R.id.btnCreateProfile);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -91,20 +99,8 @@ public class CreateProfile extends AppCompatActivity {
         String Lname = metLname.getText().toString();
         String contactnum = metContactnum.getText().toString();
         String age = metAge.getText().toString();
+        String gender = ((RadioButton) findViewById(mrgGender.getCheckedRadioButtonId())).getText().toString();
 
-        mrgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i) {
-                    case R.id.radioButton3:
-                        gender = "Female";
-                        break;
-                    case R.id.radioButton4:
-                        gender = "Male";
-                        break;
-                }
-            }
-        });
 
         TenantModel tenantModel = new TenantModel(Fname, Lname, contactnum, gender, age);
         mFirebaseDatabase.child(UID).setValue(tenantModel);
@@ -132,5 +128,22 @@ public class CreateProfile extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.forward:
+                Intent settings = new Intent(CreateProfile.this, SelectPreferences.class);
+                startActivity(settings);
+                break;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
 }

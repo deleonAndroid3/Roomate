@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Roomate</string>
+    <string name="action_settings">Something</string>
 </resources>
