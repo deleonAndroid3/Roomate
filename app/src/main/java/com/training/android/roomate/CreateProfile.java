@@ -9,16 +9,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import android.support.v7.widget.Toolbar;
 
 public class CreateProfile extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private EditText mEtFname;
+    private EditText mEtLname;
+    private EditText mEtContactNum;
+    private EditText mEtAge;
     private Button mButton;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference mRef = database.getReference("users").child("user_types").child("Seekers");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +36,31 @@ public class CreateProfile extends AppCompatActivity {
         setContentView(R.layout.activity_create_profile);
 
         mAuth = FirebaseAuth.getInstance();
+
         mButton = findViewById(R.id.btnCreateProfile);
+        mEtFname = findViewById(R.id.etFname);
+        mEtLname = findViewById(R.id.etLname);
+        mEtContactNum = findViewById(R.id.etContactNum);
+        mEtAge = findViewById(R.id.etAge);
+
 //       initToolbar();
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent UID = getIntent();
+                DatabaseReference newRef = mRef.child(UID.getStringExtra("UID"));
+                newRef.child("Fname").setValue(mEtFname.getText());
+                newRef.child("Lname").setValue(mEtLname.getText());
+                newRef.child("ContactNum").setValue(mEtContactNum.getText());
+                newRef.child("Age").setValue(mEtAge);
                 Intent i = new Intent(CreateProfile.this, SelectPreferences.class);
                 startActivity(i);
             }
         });
         Intent getUId = getIntent();
         Toast.makeText(this, "Gwapo: " + getUId.getStringExtra("UID"), Toast.LENGTH_SHORT).show();
+
+
     }
 
 /*
