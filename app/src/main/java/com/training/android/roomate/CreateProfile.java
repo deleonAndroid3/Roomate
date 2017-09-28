@@ -2,15 +2,23 @@ package com.training.android.roomate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.FirebaseAuth;
+import android.support.v7.widget.Toolbar;
 
 public class CreateProfile extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private Button mButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,10 +26,31 @@ public class CreateProfile extends AppCompatActivity {
         setContentView(R.layout.activity_create_profile);
 
         mAuth = FirebaseAuth.getInstance();
-
+        mButton = findViewById(R.id.btnCreateProfile);
+//       initToolbar();
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(CreateProfile.this, SelectPreferences.class);
+                startActivity(i);
+            }
+        });
         Intent getUId = getIntent();
         Toast.makeText(this, "Gwapo: " + getUId.getStringExtra("UID"), Toast.LENGTH_SHORT).show();
     }
+
+/*
+    private void initToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+*/
 
     @Override
     public void onBackPressed() {
@@ -31,4 +60,23 @@ public class CreateProfile extends AppCompatActivity {
         Toast.makeText(this, "Signed Out", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(CreateProfile.this, AuthenticationActivity.class));
     }
+
+ /*   @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent settings = new Intent(CreateProfile.this, SelectPreferences.class);
+                startActivity(settings);
+                break;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }*/
 }

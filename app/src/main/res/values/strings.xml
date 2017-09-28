@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Roomate</string>
+<<<<<<< HEAD
     <string name="message">Message</string>
     <string name="profile">Profile</string>
     <string name="notification">Notification</string>
     <string name="home">Home</string>
+=======
+    <string name="action_settings">Something</string>
+>>>>>>> 4316c5ff1a108a7ca2409512e30868110222e97a
 </resources>
