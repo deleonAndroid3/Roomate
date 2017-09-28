@@ -2,7 +2,6 @@ package com.training.android.roomate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -316,16 +315,13 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 break;
             case STATE_SIGNIN_SUCCESS:
                 // Np-op, handled by sign-in check
-                checkProfile(user.getUid());
+
                 break;
 
         }
 
         if (user != null) {
-
-            mPhoneNumberField.setText(null);
-            mVerificationField.setText(null);
-
+            checkProfile(user.getUid());
             Toast.makeText(this, "Signed In: " + user.getUid(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -378,7 +374,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     }
 
     private void checkProfile(final String userUID) {
-        final Handler handler = new Handler();
+
         mFirebaseDatabase = mFirebaseInstance
                 .getReference("users")
                 .child("user_types")
@@ -387,31 +383,21 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                int i = 1;
                 for (DataSnapshot childsnapshot : dataSnapshot.getChildren()) {
                     if (userUID.equals(childsnapshot.getKey())) {
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent goToProfile = new Intent(AuthenticationActivity.this, ProfileScreen.class);
-                                startActivity(goToProfile);
-                                finish();
-                            }
-                        }, 3000);
-                    } else {
-
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent createProfileIntent = new Intent(AuthenticationActivity.this, CreateProfile.class);
-                                createProfileIntent.putExtra("UID", userUID);
-                                startActivity(createProfileIntent);
-                                Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        }, 3000);
-
+                        Intent goToProfile = new Intent(AuthenticationActivity.this, ProfileScreen.class);
+                        startActivity(goToProfile);
+                        break;
+                    } else if (i++ == dataSnapshot.getChildrenCount() && !(userUID.equals(childsnapshot.getKey()))) {
+                        Intent createProfileIntent = new Intent(AuthenticationActivity.this, CreateProfile.class);
+                        createProfileIntent.putExtra("UID", userUID);
+                        startActivity(createProfileIntent);
+                        Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
                     }
                 }
+
+
             }
 
             @Override

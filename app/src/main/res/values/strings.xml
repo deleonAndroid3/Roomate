@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Roomate</string>
+    <string name="message">Message</string>
+    <string name="profile">Profile</string>
+    <string name="notification">Notification</string>
+    <string name="home">Home</string>
     <string name="action_settings">Something</string>
 </resources>

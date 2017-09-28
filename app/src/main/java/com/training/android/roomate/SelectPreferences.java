@@ -1,26 +1,39 @@
 package com.training.android.roomate;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.support.v7.app.AppCompatActivity;
+import android.util.SparseBooleanArray;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class SelectPreferences extends AppCompatActivity {
-    Button mBtnConfirm;
+
+    String[] userPrefList = {"Student", "Non-Smoker", "Non-Drinker"};
+    ArrayList<String> checkedPref;
+    String selected = "";
+    SparseBooleanArray checked;
+    private ListView mlvUserPrefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_preferences);
 
-        mBtnConfirm = findViewById(R.id.btnConfirm);
+        mlvUserPrefs = (ListView) findViewById(R.id.lvUserPref);
 
-        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(SelectPreferences.this, ApartmentPreferences.class);
-                startActivity(i);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, userPrefList);
+        mlvUserPrefs.setAdapter(adapter);
+        mlvUserPrefs.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        checked = mlvUserPrefs.getCheckedItemPositions();
+        for (int i = 0; i < mlvUserPrefs.getCount(); i++) {
+            if (checked.get(i)) {
+                selected = checked.toString();
+                Toast.makeText(this, selected, Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 }
