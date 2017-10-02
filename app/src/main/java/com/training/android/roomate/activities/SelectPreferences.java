@@ -1,10 +1,12 @@
-package com.training.android.roomate;
+package com.training.android.roomate.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.training.android.roomate.R;
 
 public class SelectPreferences extends AppCompatActivity {
     Button mBtnConfirm;
