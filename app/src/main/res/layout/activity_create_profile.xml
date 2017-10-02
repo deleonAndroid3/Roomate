@@ -13,8 +13,8 @@
 
         <ScrollView
             android:id="@+id/scrollView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="458dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -22,7 +22,9 @@
             app:layout_constraintBottom_toTopOf="@+id/btnCreateProfile"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,7 +81,7 @@
                     android:orientation="horizontal">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup"
+                        android:id="@+id/rgGender"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="16dp"
@@ -89,14 +91,14 @@
                         tools:layout_editor_absoluteY="374dp">
 
                         <RadioButton
-                            android:id="@+id/radioButton4"
+                            android:id="@+id/rbMale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Male" />
 
                         <RadioButton
-                            android:id="@+id/radioButton3"
+                            android:id="@+id/rbFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -110,7 +112,7 @@
                     android:orientation="horizontal">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup2"
+                        android:id="@+id/rgType"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="16dp"
@@ -120,7 +122,7 @@
                         tools:layout_editor_absoluteY="275dp">
 
                         <RadioButton
-                            android:id="@+id/radioButton"
+                            android:id="@+id/rbTenant"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.73"
@@ -129,7 +131,7 @@
                             tools:layout_editor_absoluteY="279dp" />
 
                         <RadioButton
-                            android:id="@+id/radioButton2"
+                            android:id="@+id/rbSeeker"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
