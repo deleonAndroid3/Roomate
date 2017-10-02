@@ -377,27 +377,26 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
         mFirebaseDatabase = mFirebaseInstance
                 .getReference("users")
-                .child("user_types")
-                .child("Tenants");
+                .child("user_types");
 
         mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int i = 1;
-                for (DataSnapshot childsnapshot : dataSnapshot.getChildren()) {
-                    if (userUID.equals(childsnapshot.getKey())) {
-                        Intent goToProfile = new Intent(AuthenticationActivity.this, ProfileScreen.class);
-                        startActivity(goToProfile);
-                        break;
-                    } else if (i++ == dataSnapshot.getChildrenCount() && !(userUID.equals(childsnapshot.getKey()))) {
-                        Intent createProfileIntent = new Intent(AuthenticationActivity.this, CreateProfile.class);
-                        createProfileIntent.putExtra("UID", userUID);
-                        startActivity(createProfileIntent);
-                        Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
+                for (DataSnapshot parentsnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot childsnapshot : parentsnapshot.getChildren()) {
+                        if (userUID.equals(childsnapshot.getKey())) {
+                            Intent goToProfile = new Intent(AuthenticationActivity.this, ProfileScreen.class);
+                            startActivity(goToProfile);
+                            break;
+                        } else if (i++ == dataSnapshot.getChildrenCount() && !(userUID.equals(childsnapshot.getKey()))) {
+                            Intent createProfileIntent = new Intent(AuthenticationActivity.this, CreateProfile.class);
+                            createProfileIntent.putExtra("UID", userUID);
+                            startActivity(createProfileIntent);
+                            Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
-
-
             }
 
             @Override

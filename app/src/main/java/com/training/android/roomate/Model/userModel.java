@@ -4,7 +4,7 @@ package com.training.android.roomate.Model;
  * Created by Dyste on 9/27/2017.
  */
 
-public class TenantModel {
+public class userModel {
 
     private String Fname;
     private String Lname;
@@ -12,10 +12,10 @@ public class TenantModel {
     private String gender;
     private String age;
 
-    public TenantModel() {
+    public userModel() {
     }
 
-    public TenantModel(String fname, String lname, String contactnum, String gender, String age) {
+    public userModel(String fname, String lname, String contactnum, String gender, String age) {
         Fname = fname;
         Lname = lname;
         this.contactnum = contactnum;
