@@ -21,6 +21,7 @@
 
 
     <com.roughike.bottombar.BottomBar
+        android:background="#ffffff"
         android:paddingBottom="10dp"
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
