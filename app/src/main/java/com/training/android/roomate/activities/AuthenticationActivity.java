@@ -1,4 +1,4 @@
-package com.training.android.roomate;
+package com.training.android.roomate.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.training.android.roomate.R;
 
 import java.util.concurrent.TimeUnit;
 
@@ -382,21 +383,24 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean flag = false;
+                Intent intent = new Intent();
                 int i = 1;
                 for (DataSnapshot parentsnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot childsnapshot : parentsnapshot.getChildren()) {
                         if (userUID.equals(childsnapshot.getKey())) {
-                            Intent goToProfile = new Intent(AuthenticationActivity.this, ProfileScreen.class);
-                            startActivity(goToProfile);
+                            intent = new Intent(AuthenticationActivity.this, ProfileScreen.class);
+                            flag = true;
                             break;
-                        } else if (i++ == dataSnapshot.getChildrenCount() && !(userUID.equals(childsnapshot.getKey()))) {
-                            Intent createProfileIntent = new Intent(AuthenticationActivity.this, CreateProfile.class);
-                            createProfileIntent.putExtra("UID", userUID);
-                            startActivity(createProfileIntent);
+
+                        } else if (i++ == dataSnapshot.getChildrenCount() && !(userUID.equals(childsnapshot.getKey())) && flag == false) {
+                            intent = new Intent(AuthenticationActivity.this, CreateProfile.class);
+                            intent.putExtra("UID", userUID);
                             Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
+                startActivity(intent);
             }
 
             @Override

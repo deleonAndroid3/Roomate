@@ -1,4 +1,4 @@
-package com.training.android.roomate;
+package com.training.android.roomate.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import com.training.android.roomate.R;
 
 public class ProfileScreen extends AppCompatActivity {
 

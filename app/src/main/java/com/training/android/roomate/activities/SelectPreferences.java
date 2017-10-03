@@ -1,4 +1,4 @@
-package com.training.android.roomate;
+package com.training.android.roomate.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import com.training.android.roomate.R;
 
 public class SelectPreferences extends AppCompatActivity {
 
