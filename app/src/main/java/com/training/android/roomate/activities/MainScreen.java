@@ -2,7 +2,6 @@ package com.training.android.roomate.activities;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
@@ -22,15 +21,24 @@ public class MainScreen extends AppCompatActivity {
 
         mFragmentContainer = findViewById(R.id.contentContainer);
 
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.contentContainer,new HomeFragment())
+                .commit();
+
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 switch(tabId){
                     case R.id.tab_home:
-                        HomeFragment home = new HomeFragment();
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.contentContainer,home);
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.contentContainer,new HomeFragment())
+                                .commit();
+//                        HomeFragment home = new HomeFragment();
+//                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                        ft.replace(R.id.contentContainer,home);
                         break;
                     case R.id.tab_message:
                         break;
