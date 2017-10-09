@@ -3,6 +3,7 @@ package com.training.android.roomate.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,6 +23,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.training.android.roomate.Model.userModel;
 import com.training.android.roomate.R;
+import com.training.android.roomate.activities.MyApartment;
 import com.training.android.roomate.activities.SelectPreferences;
 import com.training.android.roomate.activities.SetupApartment;
 
@@ -31,12 +34,13 @@ import java.util.List;
 public class ProfileFragment extends Fragment {
 
 
+    int count = 1;
     //FIREBASE
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
+    private DatabaseReference ref;
     private FirebaseUser user;
-
     //FRAGMENT
     private View view;
     private ListView mlvprefs;
@@ -87,11 +91,7 @@ public class ProfileFragment extends Fragment {
         mIbtnApart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), SetupApartment.class);
-                intent.putExtra("UID", user.getUid());
-                startActivity(intent);
-
-                /*Add Check if user has an apartment*/
+                checkApart();
             }
         });
 
@@ -155,6 +155,49 @@ public class ProfileFragment extends Fragment {
         });
 
 
+    }
+
+    public void checkApart() {
+        mFirebaseDatabase = mFirebaseInstance.getReference("Apartments");
+
+        mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (final DataSnapshot data : dataSnapshot.getChildren()) {
+                    ref = mFirebaseDatabase.child(data.getKey()).child("apartment_tenants");
+
+
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot usersnaps : dataSnapshot.getChildren()) {
+                                if (usersnaps.getKey().equals(user.getUid())) {
+                                    Intent i = new Intent(view.getContext(), MyApartment.class);
+                                    i.putExtra("ApartmentID", data.getKey());
+                                    startActivity(i);
+                                    break;
+                                } else if (count++ == dataSnapshot.getChildrenCount() &&
+                                        !(usersnaps.getKey().equals(user.getUid()))) {
+                                    Intent newApart = new Intent(view.getContext(), SetupApartment.class);
+                                    newApart.putExtra("UID", user.getUid());
+                                    startActivity(newApart);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.e("TAG", databaseError.getMessage());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("TAG", databaseError.getMessage());
+            }
+        });
     }
 
 }

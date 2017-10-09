@@ -13,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.training.android.roomate.Model.ApartmentModel;
 import com.training.android.roomate.R;
 
+import java.util.HashMap;
+
 public class SetupApartment extends AppCompatActivity {
 
     private EditText metName, metAddress, metCity, metNum;
@@ -20,22 +22,22 @@ public class SetupApartment extends AppCompatActivity {
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
 
-    private String UID = "";
+    private HashMap<String,String> UID = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_apartment);
 
-        metName = findViewById(R.id.etName);
-        metAddress = findViewById(R.id.etAddress);
-        metCity = findViewById(R.id.etCity);
+        metName = findViewById(R.id.tvName);
+        metAddress = findViewById(R.id.tvAddress);
+        metCity = findViewById(R.id.tvCity);
         metNum = findViewById(R.id.etRmNeeded);
         mbtnSubmit = findViewById(R.id.btnSubmit);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         Intent i = getIntent();
-        UID = i.getStringExtra("UID");
+        UID.put(i.getStringExtra("UID"), i.getStringExtra("UID"));
 
         mbtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +48,7 @@ public class SetupApartment extends AppCompatActivity {
         });
     }
 
-    public void addApartment(String UID){
+    public void addApartment(HashMap<String,String> UID){
 
         mFirebaseDatabase = mFirebaseInstance.getReference("Apartments");
 
@@ -55,10 +57,8 @@ public class SetupApartment extends AppCompatActivity {
         String City = metCity.getText().toString();
         String num = metNum.getText().toString();
 
-        ApartmentModel am = new ApartmentModel(Name, Address, City, num);
+        ApartmentModel am = new ApartmentModel(Name, Address, City, num, UID);
         mFirebaseDatabase.push().setValue(am);
-
-
     }
 
 
