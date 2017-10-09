@@ -1,4 +1,4 @@
-package com.training.android.roomate.models;
+package com.training.android.roomate.Model;
 
 /**
  * Created by cicct on 10/3/2017.

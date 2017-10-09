@@ -376,31 +376,28 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     private void checkProfile(final String userUID) {
 
-        mFirebaseDatabase = mFirebaseInstance
-                .getReference("users")
-                .child("user_types");
+        mFirebaseDatabase = mFirebaseInstance.getReference("users");
 
         mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean flag = false;
-                Intent intent = new Intent();
-                int i = 1;
-                for (DataSnapshot parentsnapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot childsnapshot : parentsnapshot.getChildren()) {
-                        if (userUID.equals(childsnapshot.getKey())) {
-                            intent = new Intent(AuthenticationActivity.this, ProfileScreen.class);
-                            flag = true;
-                            break;
 
-                        } else if (i++ == dataSnapshot.getChildrenCount() && !(userUID.equals(childsnapshot.getKey())) && flag == false) {
-                            intent = new Intent(AuthenticationActivity.this, CreateProfile.class);
-                            intent.putExtra("UID", userUID);
-                            Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
-                        }
+                int i = 1;
+
+                for (DataSnapshot snaps : dataSnapshot.getChildren()) {
+                    if (userUID.equals(snaps.getKey())) {
+                        Intent intent = new Intent(AuthenticationActivity.this, MainScreen.class);
+                        startActivity(intent);
+                        break;
+
+                    } else if (i++ == dataSnapshot.getChildrenCount() && !(userUID.equals(snaps.getKey()))) {
+                        Intent intent = new Intent(AuthenticationActivity.this, CreateProfile.class);
+                        intent.putExtra("UID", userUID);
+                        startActivity(intent);
+                        Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
                     }
                 }
-                startActivity(intent);
+
             }
 
             @Override
@@ -408,6 +405,5 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 Log.e("TAG", databaseError.getMessage());
             }
         });
-
     }
 }

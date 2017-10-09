@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.auth.FirebaseUser;
 import com.training.android.roomate.R;
 
 public class ProfileScreen extends AppCompatActivity {
@@ -24,6 +24,7 @@ public class ProfileScreen extends AppCompatActivity {
         mivBack = findViewById(R.id.back);
 
         mAuth = FirebaseAuth.getInstance();
+        getProfile();
 
         mivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,5 +40,11 @@ public class ProfileScreen extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void getProfile() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+
     }
 }

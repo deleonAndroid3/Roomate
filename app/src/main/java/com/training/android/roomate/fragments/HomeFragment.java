@@ -10,13 +10,10 @@ import android.view.ViewGroup;
 
 import com.training.android.roomate.R;
 import com.training.android.roomate.adapters.HomeAdapter;
-import com.training.android.roomate.models.Home;
+import com.training.android.roomate.Model.Home;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class HomeFragment extends Fragment {
 
     private View rootView;

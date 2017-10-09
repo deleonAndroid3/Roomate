@@ -13,22 +13,19 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.MainScreen"
+            android:name=".activities.AuthenticationActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
-            android:name=".activities.AuthenticationActivity"
-            android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:name=".activities.MainScreen"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.CreateProfile"
             android:noHistory="true" />
@@ -42,7 +39,7 @@
         <activity
             android:name=".activities.ApartmentPreferences"
             android:noHistory="true" />
-
+        <activity android:name=".activities.SearchActivity"/>
     </application>
 
 </manifest>

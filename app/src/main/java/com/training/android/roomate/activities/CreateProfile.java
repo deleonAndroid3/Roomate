@@ -24,6 +24,7 @@ public class CreateProfile extends AppCompatActivity {
     Intent getUId;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
+    private Button mbtnCreate;
     private EditText metFname;
     private EditText metLname;
     private EditText metAge;
@@ -42,71 +43,35 @@ public class CreateProfile extends AppCompatActivity {
         metContactnum = findViewById(R.id.etContactNum);
         mrgGender = findViewById(R.id.rgGender);
         mrgType = findViewById(R.id.rgType);
+        mbtnCreate = findViewById(R.id.btnCreateProfile);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         getUId = getIntent();
 
+        mbtnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addUser(getUId.getStringExtra("UID"));
+                Intent settings = new Intent(CreateProfile.this, MainScreen.class);
+                startActivity(settings);
+            }
+        });
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.forward:
-                if (mrgType.getCheckedRadioButtonId() == R.id.rbTenant) {
-                    addTenant(getUId.getStringExtra("UID"));
-                    Intent settings = new Intent(CreateProfile.this, SelectPreferences.class);
-                    settings.putExtra("UID", getUId.getStringExtra("UID"));
-                    startActivity(settings);
-                    break;
-                } else {
-                    addSeeker(getUId.getStringExtra("UID"));
-                    Intent settings = new Intent(CreateProfile.this, SelectPreferences.class);
-                    settings.putExtra("UID", getUId.getStringExtra("UID"));
-                    startActivity(settings);
-                }
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void addSeeker(String UID) {
-
-       mFirebaseDatabase = mFirebaseInstance
-                .getReference("users")
-                .child("user_types")
-                .child("Seekers");
-
-        String Fname = metFname.getText().toString();
-        String Lname = metLname.getText().toString();
-        String contactnum = metContactnum.getText().toString();
-        String age = metAge.getText().toString();
-        String gender = ((RadioButton) findViewById(mrgGender.getCheckedRadioButtonId())).getText().toString();
-
-        userModel um = new userModel(Fname, Lname, contactnum, gender, age);
-        mFirebaseDatabase.child(UID).setValue(um);
-    }
-
-    public void addTenant(String UID) {
+    public void addUser(String UID) {
 
         mFirebaseDatabase = mFirebaseInstance
-                .getReference("users")
-                .child("user_types")
-                .child("Tenants");
+                .getReference("users");
 
         String Fname = metFname.getText().toString();
         String Lname = metLname.getText().toString();
         String contactnum = metContactnum.getText().toString();
         String age = metAge.getText().toString();
         String gender = ((RadioButton) findViewById(mrgGender.getCheckedRadioButtonId())).getText().toString();
+        String desc = ((RadioButton) findViewById(mrgType.getCheckedRadioButtonId())).getText().toString();
 
-        userModel um = new userModel(Fname, Lname, contactnum, gender, age);
+        userModel um = new userModel(Fname, Lname, contactnum, gender, age, desc);
         mFirebaseDatabase.child(UID).setValue(um);
     }
 

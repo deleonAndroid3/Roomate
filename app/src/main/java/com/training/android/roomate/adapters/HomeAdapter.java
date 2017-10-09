@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.training.android.roomate.R;
-import com.training.android.roomate.models.Home;
+import com.training.android.roomate.Model.Home;
 
 import java.util.ArrayList;
 
