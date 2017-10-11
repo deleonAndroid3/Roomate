@@ -34,7 +34,8 @@ import java.util.List;
 public class ProfileFragment extends Fragment {
 
 
-    int count = 1;
+    int count = 0;
+    boolean flag = false;
     //FIREBASE
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseInstance;
@@ -137,11 +138,10 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot prefsSnap : dataSnapshot.getChildren()) {
-                    GenericTypeIndicator<String> t = new GenericTypeIndicator<String>() {
-                    };
+                    GenericTypeIndicator<String> t = new GenericTypeIndicator<String>() {};
                     prefs = prefsSnap.getValue(t);
                     Listprefs.add(prefs);
-
+                    Toast.makeText(getContext(), prefs, Toast.LENGTH_SHORT).show();
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, Listprefs);
@@ -166,23 +166,21 @@ public class ProfileFragment extends Fragment {
                 for (final DataSnapshot data : dataSnapshot.getChildren()) {
                     ref = mFirebaseDatabase.child(data.getKey()).child("apartment_tenants");
 
-
                     ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot usersnaps : dataSnapshot.getChildren()) {
-                                if (usersnaps.getKey().equals(user.getUid())) {
-                                    Intent i = new Intent(view.getContext(), MyApartment.class);
-                                    i.putExtra("ApartmentID", data.getKey());
-                                    startActivity(i);
-                                    break;
-                                } else if (count++ == dataSnapshot.getChildrenCount() &&
-                                        !(usersnaps.getKey().equals(user.getUid()))) {
-                                    Intent newApart = new Intent(view.getContext(), SetupApartment.class);
-                                    newApart.putExtra("UID", user.getUid());
-                                    startActivity(newApart);
-                                }
+
+                            if (dataSnapshot.child(user.getUid()).exists()) {
+                                flag = true;
+                                Intent i = new Intent(view.getContext(), MyApartment.class);
+                                i.putExtra("ApartmentID", data.getKey());
+                                startActivity(i);
+                            } else if (++count == data.getChildrenCount() && !flag){
+                                Intent newApart = new Intent(view.getContext(), SetupApartment.class);
+                                newApart.putExtra("UID", user.getUid());
+                                startActivity(newApart);
                             }
+
                         }
 
                         @Override
@@ -190,6 +188,9 @@ public class ProfileFragment extends Fragment {
                             Log.e("TAG", databaseError.getMessage());
                         }
                     });
+
+                    if (flag)
+                        break;
                 }
             }
 

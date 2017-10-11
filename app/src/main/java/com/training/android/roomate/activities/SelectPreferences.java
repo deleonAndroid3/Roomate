@@ -36,7 +36,7 @@ public class SelectPreferences extends AppCompatActivity {
         setContentView(R.layout.activity_select_preferences);
 
         mlvPrefs = findViewById(R.id.lvPrefs);
-        mbtnConfirm = findViewById(R.id.btnConfirm);
+        mbtnConfirm = findViewById(R.id.btnAConfirm);
         prefsList = new ArrayList<>(Arrays.asList(cbPrefs));
 
         Intent i = getIntent();

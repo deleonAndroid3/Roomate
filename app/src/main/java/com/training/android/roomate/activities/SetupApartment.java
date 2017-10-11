@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 public class SetupApartment extends AppCompatActivity {
 
-    private EditText metName, metAddress, metCity, metNum;
+    private EditText metName, metAddress, metCity, metNum, metRent;
     private Button mbtnSubmit;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
@@ -29,10 +29,11 @@ public class SetupApartment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_apartment);
 
-        metName = findViewById(R.id.tvName);
+        metName = findViewById(R.id.tvApName);
         metAddress = findViewById(R.id.tvAddress);
-        metCity = findViewById(R.id.tvCity);
+        metCity = findViewById(R.id.tvACity);
         metNum = findViewById(R.id.etRmNeeded);
+        metRent = findViewById(R.id.etRent);
         mbtnSubmit = findViewById(R.id.btnSubmit);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -56,8 +57,9 @@ public class SetupApartment extends AppCompatActivity {
         String Address = metAddress.getText().toString();
         String City = metCity.getText().toString();
         String num = metNum.getText().toString();
+        String rent = metRent.getText().toString();
 
-        ApartmentModel am = new ApartmentModel(Name, Address, City, num, UID);
+        ApartmentModel am = new ApartmentModel(Name, Address, City, num,rent, UID);
         mFirebaseDatabase.push().setValue(am);
     }
 

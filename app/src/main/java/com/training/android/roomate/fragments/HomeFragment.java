@@ -1,5 +1,6 @@
 package com.training.android.roomate.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.training.android.roomate.R;
+import com.training.android.roomate.activities.SearchActivity;
 import com.training.android.roomate.adapters.HomeAdapter;
 import com.training.android.roomate.Model.Home;
 
@@ -20,6 +23,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView matchesRecycler, preferenceRecycler;
     private LinearLayoutManager matchesManager, preferencesManager;
     private RecyclerView.Adapter matchesAdapter, preferencesAdapter;
+    private ImageButton miBtnSearch;
 
 
     public HomeFragment() {
@@ -45,6 +49,15 @@ public class HomeFragment extends Fragment {
         preferencesAdapter = new HomeAdapter(rootView.getContext(),getHomes());
         preferenceRecycler.setAdapter(preferencesAdapter);
 
+        miBtnSearch = rootView.findViewById(R.id.iBtnSearch);
+
+        miBtnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(rootView.getContext(), SearchActivity.class);
+                startActivity(i);
+            }
+        });
 
         return rootView;
     }

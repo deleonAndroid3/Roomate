@@ -12,16 +12,18 @@ public class ApartmentModel {
     private String Address;
     private String City;
     private String RMNeeded;
+    private String MonthlyRent;
     private HashMap<String,String> apartment_tenants;
 
     public ApartmentModel() {
     }
 
-    public ApartmentModel(String name, String address, String city, String RMNeeded, HashMap<String, String> apartment_tenants) {
+    public ApartmentModel(String name, String address, String city, String RMNeeded,String monthlyRent, HashMap<String, String> apartment_tenants) {
         Name = name;
         Address = address;
         City = city;
         this.RMNeeded = RMNeeded;
+        MonthlyRent = monthlyRent;
         this.apartment_tenants = apartment_tenants;
     }
 
@@ -63,5 +65,13 @@ public class ApartmentModel {
 
     public void setApartment_tenants(HashMap<String, String> apartment_tenants) {
         this.apartment_tenants = apartment_tenants;
+    }
+
+    public String getMonthlyRent() {
+        return MonthlyRent;
+    }
+
+    public void setMonthlyRent(String monthlyRent) {
+        MonthlyRent = monthlyRent;
     }
 }

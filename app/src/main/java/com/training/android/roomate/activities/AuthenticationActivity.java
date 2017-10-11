@@ -382,20 +382,15 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                int i = 1;
+                if (dataSnapshot.child(userUID).exists()) {
+                    Intent intent = new Intent(AuthenticationActivity.this, MainScreen.class);
+                    startActivity(intent);
 
-                for (DataSnapshot snaps : dataSnapshot.getChildren()) {
-                    if (userUID.equals(snaps.getKey())) {
-                        Intent intent = new Intent(AuthenticationActivity.this, MainScreen.class);
-                        startActivity(intent);
-                        break;
-
-                    } else if (i++ == dataSnapshot.getChildrenCount() && !(userUID.equals(snaps.getKey()))) {
-                        Intent intent = new Intent(AuthenticationActivity.this, CreateProfile.class);
-                        intent.putExtra("UID", userUID);
-                        startActivity(intent);
-                        Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
-                    }
+                } else {
+                    Intent intent = new Intent(AuthenticationActivity.this, CreateProfile.class);
+                    intent.putExtra("UID", userUID);
+                    startActivity(intent);
+                    Toast.makeText(AuthenticationActivity.this, "Create Profile", Toast.LENGTH_SHORT).show();
                 }
 
             }
