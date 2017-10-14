@@ -3,10 +3,15 @@ package com.training.android.roomate.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,17 +21,24 @@ import com.google.firebase.database.ValueEventListener;
 import com.training.android.roomate.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ApartmentActivity extends AppCompatActivity {
 
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     private TextView mtvApName, mtvApAddress, mtvApCity, mtvApMrent, mtvRMNum;
+    private Button mbtApply;
     private ListView mlvFeats;
     private List<String> ListFeats;
     private String feats;
+    private Intent i;
+
+    private HashMap<String,String> UID = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +51,31 @@ public class ApartmentActivity extends AppCompatActivity {
         mtvApMrent = findViewById(R.id.tvApMrent);
         mtvRMNum = findViewById(R.id.tvRMNum);
         mlvFeats = findViewById(R.id.lvAFeats);
+        mbtApply = findViewById(R.id.btnApply);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
-        Intent i = getIntent();
+        UID.put(user.getUid(), user.getUid());
+
+        i = getIntent();
         mtvApName.setText(i.getStringExtra("Name"));
         mtvApAddress.setText(i.getStringExtra("Address"));
         mtvApCity.setText(i.getStringExtra("City"));
         mtvApMrent.setText(i.getStringExtra("Rent"));
         mtvRMNum.setText(i.getStringExtra("RM"));
         getFeats(i.getStringExtra("ID"));
+
+        mbtApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ApplytoApartment(i.getStringExtra("ID"));
+                Toast.makeText(ApartmentActivity.this, "Application Sent", Toast.LENGTH_SHORT).show();
+                mbtApply.setText("Applied");
+                mbtApply.setEnabled(false);
+            }
+        });
     }
 
     public void getFeats(String ApID) {
@@ -78,5 +105,11 @@ public class ApartmentActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void ApplytoApartment(String ID) {
+        mFirebaseDatabase = mFirebaseInstance.getReference("Apartments").child(ID);
+
+        mFirebaseDatabase.child("apartment_applicants").setValue(UID);
     }
 }
