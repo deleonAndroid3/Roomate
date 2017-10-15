@@ -28,17 +28,18 @@ public class ApartmentActivity extends AppCompatActivity {
 
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
+    private DatabaseReference mProfileDatabase;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
-    private TextView mtvApName, mtvApAddress, mtvApCity, mtvApMrent, mtvRMNum;
+    private TextView mtvApName, mtvApAddress, mtvApCity, mtvApMrent, mtvRMNum, mtvViewTenant;
     private Button mbtApply;
     private ListView mlvFeats;
     private List<String> ListFeats;
     private String feats;
     private Intent i;
 
-    private HashMap<String,String> UID = new HashMap<>();
+    private HashMap<String, String> UID = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class ApartmentActivity extends AppCompatActivity {
         mtvRMNum = findViewById(R.id.tvRMNum);
         mlvFeats = findViewById(R.id.lvAFeats);
         mbtApply = findViewById(R.id.btnApply);
+        mtvViewTenant = findViewById(R.id.tvSeeTenant);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -74,6 +76,13 @@ public class ApartmentActivity extends AppCompatActivity {
                 Toast.makeText(ApartmentActivity.this, "Application Sent", Toast.LENGTH_SHORT).show();
                 mbtApply.setText("Applied");
                 mbtApply.setEnabled(false);
+            }
+        });
+
+        mtvViewTenant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewTenant(i.getStringExtra("ID"));
             }
         });
     }
@@ -111,5 +120,26 @@ public class ApartmentActivity extends AppCompatActivity {
         mFirebaseDatabase = mFirebaseInstance.getReference("Apartments").child(ID);
 
         mFirebaseDatabase.child("apartment_applicants").setValue(UID);
+    }
+
+    public void ViewTenant(String ID) {
+        mFirebaseDatabase = mFirebaseInstance.getReference("Apartments").child(ID).child("apartment_tenants");
+
+        mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Intent i = new Intent(ApartmentActivity.this, ViewTenantProfile.class);
+                    i.putExtra("ID", child.getKey());
+                    startActivity(i);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -38,7 +38,8 @@
             android:noHistory="true" />
         <activity android:name=".activities.SearchActivity" />
         <activity android:name=".activities.MyApartment" />
-        <activity android:name=".activities.ApartmentActivity"></activity>
+        <activity android:name=".activities.ApartmentActivity" />
+        <activity android:name=".activities.ViewTenantProfile"></activity>
     </application>
 
 </manifest>
