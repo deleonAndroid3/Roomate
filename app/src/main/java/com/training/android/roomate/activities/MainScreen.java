@@ -10,6 +10,7 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.training.android.roomate.R;
 import com.training.android.roomate.fragments.HomeFragment;
+import com.training.android.roomate.fragments.NotificationFragment;
 import com.training.android.roomate.fragments.ProfileFragment;
 
 public class MainScreen extends AppCompatActivity {
@@ -48,6 +49,10 @@ public class MainScreen extends AppCompatActivity {
                     case R.id.tab_message:
                         break;
                     case R.id.tab_notification:
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.contentContainer,new NotificationFragment())
+                                .commit();
                         break;
                     case R.id.tab_profile:
                         getSupportFragmentManager()
