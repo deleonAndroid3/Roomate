@@ -28,7 +28,6 @@ public class ApartmentActivity extends AppCompatActivity {
 
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
-    private DatabaseReference mProfileDatabase;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
@@ -62,6 +61,7 @@ public class ApartmentActivity extends AppCompatActivity {
         UID.put(user.getUid(), user.getUid());
 
         i = getIntent();
+        checkApplication(i.getStringExtra("ID"));
         mtvApName.setText(i.getStringExtra("Name"));
         mtvApAddress.setText(i.getStringExtra("Address"));
         mtvApCity.setText(i.getStringExtra("City"));
@@ -119,7 +119,7 @@ public class ApartmentActivity extends AppCompatActivity {
     public void ApplytoApartment(String ID) {
         mFirebaseDatabase = mFirebaseInstance.getReference("Apartments").child(ID);
 
-        mFirebaseDatabase.child("apartment_applicants").setValue(UID);
+        mFirebaseDatabase.child("apartment_applicants").push().setValue(UID);
     }
 
     public void ViewTenant(String ID) {
@@ -142,4 +142,31 @@ public class ApartmentActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void checkApplication(String ApID) {
+        mFirebaseDatabase = mFirebaseInstance.getReference("Apartments").child(ApID).child("apartment_applicants");
+
+        mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot parent : dataSnapshot.getChildren()) {
+                    for (DataSnapshot child : parent.getChildren()) {
+                        if (user.getUid().equals(child.getValue())){
+                            mbtApply.setText("Applied");
+                            mbtApply.setEnabled(false);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+
 }

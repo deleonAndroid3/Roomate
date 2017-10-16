@@ -105,24 +105,27 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    ref = mFirebaseInstance.getReference("users").child(child.getKey());
+                    for (DataSnapshot value : child.getChildren()) {
 
-                    ref.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            userModel um = dataSnapshot.getValue(userModel.class);
-                            umLists.add(um);
+                        ref = mFirebaseInstance.getReference("users").child(value.getKey());
 
-                        }
+                        ref.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                                userModel um = dataSnapshot.getValue(userModel.class);
+                                umLists.add(um);
+                                Toast.makeText(getContext(), um.getContactnum() , Toast.LENGTH_SHORT).show();
+                            }
 
-                        }
-                    });
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
                 }
 
-                Toast.makeText(getContext(), umLists.size() + "", Toast.LENGTH_SHORT).show();
                 mAdapter = new NotificationAdapter(getContext(), umLists, R.layout.card_notification);
                 mrvNotifs.setAdapter(mAdapter);
                 mrvNotifs.setLayoutManager(new LinearLayoutManager(getContext()));

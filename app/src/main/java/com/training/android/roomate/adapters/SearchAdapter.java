@@ -52,12 +52,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdap
         holder.mtvAAddress.setText(currentam.getAddress());
         holder.mtvACity.setText(currentam.getCity());
         holder.mtvRM.setText(currentam.getRMNeeded());
-        holder.mtvARent.setText("P " + currentam.getMonthlyRent());
+        holder.mtvARent.setText("Php " + currentam.getMonthlyRent());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, position + "", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, ApartmentActivity.class);
                 i.putExtra("ID", IDLists.get(position));
                 i.putExtra("Name", currentam.getName());
