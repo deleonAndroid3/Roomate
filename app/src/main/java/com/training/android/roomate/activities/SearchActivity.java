@@ -82,7 +82,7 @@ public class SearchActivity extends AppCompatActivity {
         Query query = mFirebaseDatabaseReference.orderByChild("city")
                 .startAt(search).endAt(search + "\uf8ff");
 
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
