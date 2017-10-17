@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/hom_logo"
+        android:icon="@mipmap/ic_roomate"
         android:label="@string/app_name"
         android:roundIcon="@drawable/hom_logo"
         android:supportsRtl="true"
@@ -15,15 +15,17 @@
             android:name=".activities.AuthenticationActivity"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".activities.MainScreen"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.MainScreen"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CreateProfile"
             android:noHistory="true" />

@@ -13,6 +13,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
         android:background="@drawable/primary_rounded_button"
         android:text="Confirm"
         android:textColor="@android:color/white"
